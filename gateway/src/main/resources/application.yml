@@ -1,0 +1,51 @@
+server:
+  port: 10000
+
+spring:
+  cloud:
+    nacos:
+      server-addr: 10.0.0.5:8848
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+    sentinel:
+      transport:
+        dashboard: 10.0.0.5:8888
+        port: 8720
+        heartbeatIntervalMs: 10000
+      eager: true
+      datasource:
+        gw-flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            data-id: ${spring.application.name}-gw-flow-rules # 在修改的sentinel 源码中定义的规则名
+            data-type: json
+            group-id: SENTINEL_GROUP
+            rule-type: gw-flow
+        degrade:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: DEFAULT_GROUP
+            #降级规则
+            rule-type: degrade
+    gateway:
+      routes:
+        - id: demo_route
+          uri: lb://demo
+          predicates:
+            - Path=/demo/**
+          filters:
+            - StripPrefix=1
+        - id: demo_route2
+          uri: http://www.baidu.com
+          predicates:
+            - Path=/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      enabled: true
+  application:
+    name: gateway
+  main:
+    allow-bean-definition-overriding: true

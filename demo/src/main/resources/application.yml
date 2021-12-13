@@ -1,0 +1,53 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 10.0.0.5:8848
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+    sentinel:
+      transport:
+        dashboard: 10.0.0.5:8888
+        port: 8720
+        heartbeatIntervalMs: 10000
+      eager: true
+      datasource:
+        ds1:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            group-id: SENTINEL_GROUP
+            #限流规则
+            rule-type: flow
+            data-id: ${spring.application.name}-flow-rules
+            data-type: json
+        ds2:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: DEFAULT_GROUP
+            #降级规则
+            rule-type: degrade
+        ds3:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-param-flow-rules
+            groupId: DEFAULT_GROUP
+            #热点参数限流规则
+            rule-type: param-flow
+        ds4:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-system-rules1
+            groupId: DEFAULT_GROUP
+            #系统自适应限流
+            rule-type: system
+        ds5:
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            dataId: ${spring.application.name}-authority-rules
+            groupId: DEFAULT_GROUP
+            #黑白名单配置
+            rule-type: authority
+  application:
+    name: demo
+server:
+  port: 9090

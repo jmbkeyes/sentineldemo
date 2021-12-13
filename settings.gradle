@@ -1,0 +1,3 @@
+rootProject.name = 'sentineldemo'
+include "demo"
+include "gateway"

@@ -1,0 +1,9 @@
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2021.1'
+	implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:2021.1'
+	implementation 'com.alibaba.csp:sentinel-datasource-nacos:1.5.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
